@@ -14,7 +14,7 @@ This project is a real estate portal, modeled on Airbnb and Otodom. Users can br
 
 ## Requirements
 - Node.js (version 22 or newer)
-- npm
+- pnpm (version 9.0.0 or newer)
 
 ## Installation
 1. Clone the repository: https://github.com/kPoziomek/real-estate-app.git
