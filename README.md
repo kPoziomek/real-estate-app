@@ -1,40 +1,45 @@
-# Welcome to Remix!
+# Real Estate Portal
 
-- 📖 [Remix docs](https://remix.run/docs)
+## Project Description
+This project is a real estate portal, modeled on Airbnb and Otodom. Users can browse, add, edit and delete real estate listings. The project was created using Remix, Tailwind CSS, Node.ts, Prisma and SQLite.
 
-## Development
+## Technologies
+- Remix
+- TypeScript
+- Tailwind CSS
+- Node.js
+- Prisma
+- SQLite
+- Zod
 
-Run the dev server:
+## Requirements
+- Node.js (version 22 or newer)
+- npm
 
-```shellscript
-npm run dev
-```
+## Installation
+1. Clone the repository: https://github.com/kPoziomek/real-estate-app.git
+2. Go to the project directory: cd. real-estate-app
+3. Install dependencies: pnpm install
+4. Copy the `.env.example` file to `.env` and fill in the necessary environment variables.
+
+5. Run the database migration: npx prisma migrate dev
+
+## Starting the application
+To run the application in development mode: pnpm run dev
+
+The application will be available at `http://localhost:3000`.
+
+## Tests
+To run the tests: pnpm test
 
 ## Deployment
+Deployment instructions will be added in the future.
 
-First, build your app for production:
+## Collaboration
+If you want to contribute to the development of the project, please create a pull request with proposed changes.
 
-```sh
-npm run build
-```
+## License
+MIT
 
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+## Contact
+If you have questions or suggestions, contact me at: krzysztof.poziomek@gmail.com
