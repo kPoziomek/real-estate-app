@@ -11,6 +11,7 @@ This project is a real estate portal, modeled on Airbnb and Otodom. Users can br
 - Prisma
 - SQLite
 - Zod
+- MAMBA UI
 
 ## Requirements
 - Node.js (version 22 or newer)
@@ -27,7 +28,7 @@ This project is a real estate portal, modeled on Airbnb and Otodom. Users can br
 ## Starting the application
 To run the application in development mode: pnpm run dev
 
-The application will be available at `http://localhost:3000`.
+The application will be available at `http://localhost:5173`.
 
 ## Tests
 To run the tests: pnpm test
