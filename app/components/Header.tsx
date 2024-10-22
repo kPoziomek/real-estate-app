@@ -1,10 +1,11 @@
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import { useState } from "react";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import { SiHomeassistant } from "react-icons/si";
 
 export const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const navigate = useNavigate();
 	return (
 		<>
 			<header className="p-4 bg-gray-800 text-gray-100">
@@ -41,6 +42,9 @@ export const Header = () => {
 					</div>
 					<div className="items-center flex-shrink-0 hidden lg:flex">
 						<button
+							onClick={() => {
+								navigate("/login");
+							}}
 							type="button"
 							className="px-8 py-3 font-semibold rounded bg-violet-400 text-gray-900"
 						>
