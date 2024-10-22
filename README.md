@@ -2,6 +2,7 @@
 
 ## Project Description
 This project is a real estate portal, modeled on Airbnb and Otodom. Users can browse, add, edit and delete real estate listings. The project was created using Remix, Tailwind CSS, Node.ts, Prisma and SQLite.
+This project is still under development. And it is not yet ready for production use. But you can already test it and see how it works.
 
 ## Technologies
 - Remix
