@@ -37,7 +37,7 @@ model Listing {
   city         String?
   propertyType String
   listingType  String
-  images       String? // URL to image as a JSON string
+  images       String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   userId       Int
