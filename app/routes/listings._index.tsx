@@ -1,11 +1,12 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FeaturedListing from "~/components/FeaturedListing";
 import MainLayout from "~/components/MainLayout";
-import homeImage from "~/images/homeImage.webp";
-import luxuryImage from "~/images/luxuryPenthouse.webp";
-import apartment from "~/images/modernApartament.webp";
+
+import { IoPricetagOutline, IoPricetagsOutline } from "react-icons/io5";
+import { CustomInput } from "~/UI/CustomInput";
+import { getAllListings } from "~/models/listing.server";
 export const meta: MetaFunction = () => {
 	return [
 		{ title: "Ogłoszenia - RealEstate Portal" },
@@ -16,43 +17,19 @@ export const meta: MetaFunction = () => {
 	];
 };
 
-// Temporary mocked data
-const MOCK_LISTINGS = [
-	{
-		id: "1",
-		title: "Nowoczesny apartament w centrum",
-		price: 500000,
-		location: "Warszawa, Śródmieście",
-		imageUrl: apartment,
-	},
-	{
-		id: "2",
-		title: "Przytulny domek na przedmieściach",
-		price: 450000,
-		location: "Kraków, Bronowice",
-		imageUrl: { homeImage },
-	},
-	{
-		id: "3",
-		title: "Luksusowy penthouse z widokiem na morze",
-		price: 1200000,
-		location: "Gdańsk, Przymorze",
-		imageUrl: luxuryImage,
-	},
-];
-
 export const loader: LoaderFunction = async ({ request }) => {
+	const listing = await getAllListings();
 	const url = new URL(request.url);
 	const searchTerm = url.searchParams.get("searchTerm") || "";
 	const minPrice = Number(url.searchParams.get("minPrice")) || 0;
 	const maxPrice =
 		Number(url.searchParams.get("maxPrice")) || Number.POSITIVE_INFINITY;
 
-	const filteredListings = MOCK_LISTINGS.filter(
-		(listing) =>
-			listing.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-			listing.price >= minPrice &&
-			listing.price <= maxPrice,
+	const filteredListings = listing.filter(
+		(list) =>
+			list.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+			list.price >= minPrice &&
+			list.price <= maxPrice,
 	);
 
 	return { listings: filteredListings };
@@ -85,49 +62,43 @@ export default function Listings_index() {
 
 	return (
 		<MainLayout>
-			<h1 className="text-3xl font-bold text-white mb-8">
-				Ogłoszenia nieruchomości
-			</h1>
-
-			<div className="mb-8">
-				<input
-					type="text"
-					name="searchTerm"
-					placeholder="Szukaj ogłoszeń..."
-					className="w-full p-2 border rounded mb-4"
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-				/>
-				<form
-					onSubmit={handlePriceFilter}
-					className="flex flex-col md:flex-row gap-4"
-				>
-					<input
-						type="number"
-						name="minPrice"
-						placeholder="Cena min"
-						className="flex-grow p-2 border rounded"
-						value={minPrice}
-						onChange={(e) => setMinPrice(e.target.value)}
+			<h1 className="text-3xl font-bold text-white mb-8">All Listings</h1>
+			<div className="mb-3 xl:mb-8">
+				<form onSubmit={handlePriceFilter} className="flex flex-wrap gap-4">
+					<CustomInput
+						label="searchTerm"
+						placeholder="Search..."
+						type="text"
+						className="md:w-1/2"
+						handleInput={(e) => setSearchTerm(e.target.value)}
+						value={searchTerm}
 					/>
-					<input
+					<CustomInput
+						label="minPrice"
+						placeholder="Min Price"
 						type="number"
-						name="maxPrice"
-						placeholder="Cena max"
-						className="flex-grow p-2 border rounded"
+						icon={<IoPricetagOutline />}
+						handleInput={(e) => setMinPrice(e.target.value)}
+						value={minPrice}
+					/>
+					<CustomInput
+						label="maxPrice"
+						placeholder="Max Price"
+						type="number"
+						icon={<IoPricetagsOutline />}
+						handleInput={(e) => setMaxPrice(e.target.value)}
 						value={maxPrice}
-						onChange={(e) => setMaxPrice(e.target.value)}
 					/>
 					<button
 						type="submit"
-						className="bg-primary-500 text-white p-2 rounded hover:bg-primary-600"
+						className="flex self-start items-center justify-center p-2 font-semibold tracking-wide rounded-md bg-violet-400 text-gray-900 hover:bg-violet-500"
 					>
-						Filtruj ceny
+						Filter by Price
 					</button>
 				</form>
 			</div>
 
-			<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
 				{listings.map((listing) => (
 					<FeaturedListing key={listing.id} {...listing} />
 				))}
@@ -135,7 +106,7 @@ export default function Listings_index() {
 
 			{listings.length === 0 && (
 				<p className="text-center text-gray-500 mt-8">
-					Brak ogłoszeń spełniających kryteria wyszukiwania.
+					There are no listings matching your criteria.
 				</p>
 			)}
 		</MainLayout>

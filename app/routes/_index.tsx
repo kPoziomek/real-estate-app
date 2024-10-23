@@ -1,11 +1,11 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { LoaderFunction, MetaFunction, json } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 import FeaturedListing from "~/components/FeaturedListing";
 import MainLayout from "~/components/MainLayout";
 import { SearchBar } from "~/components/SearchBar";
-import homeImage from "~/images/homeImage.webp";
-import luxuryImage from "~/images/luxuryPenthouse.webp";
-import apartment from "~/images/modernApartament.webp";
+
+import { getAllListings } from "~/models/listing.server";
+
 export const meta: MetaFunction = () => {
 	return [
 		{ title: "RealEstate Portal - Znajdź swoje wymarzone mieszkanie" },
@@ -17,34 +17,12 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-	const featuredListings = [
-		{
-			id: "1",
-			title: "Nowoczesny apartament w centrum",
-			price: 500000,
-			location: "Warszawa, Śródmieście",
-			imageUrl: apartment,
-		},
-		{
-			id: "2",
-			title: "Przytulny domek na przedmieściach",
-			price: 450000,
-			location: "Kraków, Bronowice",
-			imageUrl: homeImage,
-		},
-		{
-			id: "3",
-			title: "Luksusowy penthouse z widokiem na morze",
-			price: 1200000,
-			location: "Gdańsk, Przymorze",
-			imageUrl: luxuryImage,
-		},
-	];
-	return { featuredListings };
+	const listings = await getAllListings();
+	return json({ listings });
 };
 
 export default function Index() {
-	const { featuredListings } = useLoaderData<typeof loader>();
+	const { listings } = useLoaderData<typeof loader>();
 
 	return (
 		<MainLayout>
@@ -59,9 +37,12 @@ export default function Index() {
 
 			<h2 className="text-2xl font-semibold text-gray-200 mb-4">
 				Promoted Listings
+				<Link to="/listings">
+					<span className="text-gray-400 text-sm ml-4">Find more</span>
+				</Link>
 			</h2>
 			<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 bg-gray-800 p-5 rounded-md justify-center items-center">
-				{featuredListings.map((listing) => (
+				{listings.slice(0, 3).map((listing) => (
 					<FeaturedListing key={listing.id} {...listing} />
 				))}
 			</div>
